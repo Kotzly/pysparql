@@ -1,8 +1,13 @@
 from pydantic import Field
-from typing import List
+from typing import List, Optional
 from abc import ABC
 from .dataset import Dataset
 from .prologue import Prologue
+from .filter import Filter
+from .graph_pattern import GroupGraphPattern
+from .slice import Limit, Offset
+from .order import Order
+from .group_by import GroupBy
 
 
 class QueryForm(ABC):
@@ -47,10 +52,10 @@ class Values:
 
 class QueryUnit:
     prologue: Prologue = Field(...)
-    dataset: List[Dataset] = Field(...)
-    query: QueryForm = Field(...)
-    values: Values = Field(...)
-    group_by = Field(...)
-    having = Field(...)
-    order = Field(...)
-    limit = Field(...)
+    datasets: List[Dataset] = Field(...)
+    where: GroupGraphPattern = Field(...)
+    group_by: Optional[GroupBy] = Field(...)
+    having: Optional[Filter] = Field(...)
+    order: Optional[Order] = Field(None)
+    offset: Optional[Offset] = Field(None)
+    limit: Optional[Limit] = Field(None)

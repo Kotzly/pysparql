@@ -24,3 +24,13 @@ class SameSubjectTripleList(TriplePattern):
 
     def to_triple_list(self) -> List[Triple]:
         return [Triple(self.s, p, o) for p, o in self.po_list]
+
+
+class SameSubjectPredicateTripleList(TriplePattern):
+    def __init__(self, s: Term, p: Term, o_list: List[Term]):
+        self.s = s
+        self.p = p
+        self.o_list = o_list
+
+    def to_triple_list(self) -> List[Triple]:
+        return [Triple(self.s, self.p, o) for p, o in self.o_list]

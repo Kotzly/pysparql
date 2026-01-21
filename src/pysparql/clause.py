@@ -1,4 +1,3 @@
-from typing import Union
 from enum import Enum, auto
 from pydantic import Field
 
@@ -12,38 +11,27 @@ class SelectClause:
         DISTINCT = auto()
         REDUCED = auto()
 
+    _keyword: str = Field("SELECT")
     modifier: Modifier = Field(...)
 
 
-class DatasetClause:
-    pass
-
-
 class WhereClause:
-    pass
+    _keyword: str = Field("WHERE")
 
 
-class GroupClause:
-    pass
+class GroupByClause:
+    _keyword: str = Field("GROUP BY")
 
 
 class HavingClause:
-    pass
-
-
-class LimitClause:
-    _keyword: str = Field("LIMIT")
-
-
-class OffsetClause:
-    _keyword: str = Field("OFFSET")
+    _keyword: str = Field("HAVING")
 
 
 class OrderClause:
     _keyword: str = Field("ORDER")
 
 
-LimitOffsetClause = Union[LimitClause, OffsetClause]
+# LimitOffsetClause = Union[LimitClause, OffsetClause]
 
 
-Modifier = Union[GroupClause, HavingClause, OrderClause, LimitOffsetClause]
+# Modifier = Union[GroupClause, HavingClause, OrderClause, LimitOffsetClause]

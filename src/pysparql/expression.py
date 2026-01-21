@@ -1,6 +1,7 @@
 from typing import List, Union
 from enum import Enum
 from .functions.base import Function
+from .term import Variable
 
 
 class NumericOperator(Enum):
@@ -33,6 +34,8 @@ class AlgebraicOperator(Enum):
 
 
 class Expression:
+    _alias: Union[str, Variable]
+
     def __init__(self, expression: Union["Expression", str]):
         self.expression = expression
 
