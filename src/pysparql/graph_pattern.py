@@ -7,6 +7,7 @@ from pydantic import Field
 from typing import List
 from .filter import Filter
 from .triple import TriplePattern
+from .bind import Binding
 
 
 class GraphPattern(ABC):
@@ -17,6 +18,7 @@ class GraphPattern(ABC):
 class BasicGraphPattern(GraphPattern):
     # https://www.w3.org/TR/sparql11-query/#BasicGraphPatterns
     _triple_patterns: List[TriplePattern] = Field(..., default_factory=list)
+    _binds: Binding = Field(...)
 
 
 class GroupGraphPattern(GraphPattern):

@@ -1,10 +1,9 @@
-
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
 
 [project]
-name = "spam-eggs"
+name = "pysparql"
 version = "2025.1.17"
 dependencies = [
   "rdflib>=7.5",
@@ -17,7 +16,7 @@ authors = [
 maintainers = [
   {name = "Paulo", email = "paulo@example.com"}
 ]
-description = "Lovely Spam! Wonderful Spam!"
+description = "PySparql"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICEN[CS]E.*"]

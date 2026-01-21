@@ -2,11 +2,17 @@ from abc import ABC
 
 from pydantic import Field
 from .graph_pattern import GraphPattern
+from .expression import Expression
+from typing import Union
 
 
 class Filter(ABC):
-    _graph_pattern: GraphPattern = Field(...)
+    _match: Union[GraphPattern, Expression] = Field(...)
     _keyword: str = Field("FILTER")
+
+
+class InnerFilter(Filter):
+    _match: Expression = Field(...)
 
 
 class AbsenceFilter(Filter):
@@ -19,4 +25,4 @@ class PresenceFilter(Filter):
 
 class Minus(ABC):
     _graph_pattern: GraphPattern = Field(...)
-    _keyword: str = Field("MINUS    ")
+    _keyword: str = Field("MINUS")
