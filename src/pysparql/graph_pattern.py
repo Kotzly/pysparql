@@ -6,33 +6,40 @@ from abc import ABC
 from pydantic import Field
 from typing import List
 from .filter import Filter
-from triple import Triple
+from .triple import TriplePattern
+
 
 class GraphPattern(ABC):
-    _filters: Filter = Field(..., default_factory=list)
-    _triples: List[Triple]
-
     def union(self):
         pass
 
+
 class BasicGraphPattern(GraphPattern):
-    pass
+    # https://www.w3.org/TR/sparql11-query/#BasicGraphPatterns
+    _triple_patterns: List[TriplePattern] = Field(..., default_factory=list)
+
 
 class GroupGraphPattern(GraphPattern):
+    _filters: List[Filter] = Field(..., default_factory=list)
     _graph_patterns: List[GraphPattern] = Field(...)
 
-class OptionalGraphPattern(GraphPattern):
+
+class OptionalGraphPattern(BasicGraphPattern):
     _keyword: str = Field("OPTIONAL")
+
 
 class AlternativeGraphPattern(GraphPattern):
     # Union
     _graph_patterns: GraphPattern = Field(...)
-    
+
+
+class EmptyGroupPattern(GraphPattern):
+    _graph_patterns = Field(..., default_factory=list)
+
+
 class MinusGraphPattern(GraphPattern):
     pass
 
 
-
 # class NamedGraphPattern(GraphPattern):
 #    pass
-

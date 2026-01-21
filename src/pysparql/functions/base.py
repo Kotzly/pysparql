@@ -1,2 +1,2 @@
-class Function():
+class Function:
     pass

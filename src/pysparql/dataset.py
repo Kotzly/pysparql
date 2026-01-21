@@ -1,2 +1,2 @@
-class Dataset():
+class Dataset:
     pass
