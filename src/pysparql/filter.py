@@ -1,7 +1,7 @@
 from abc import ABC
 
 from pydantic import Field
-from .graph_pattern import GraphPattern
+from .base import GraphPattern
 from .expression import Expression
 from typing import Union
 

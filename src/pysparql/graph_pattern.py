@@ -12,9 +12,7 @@ from .values import Values
 from .term import Term
 
 
-class GraphPattern(ABC):
-    def union(self):
-        pass
+
 
 
 class BasicGraphPattern(GraphPattern):
@@ -23,6 +21,20 @@ class BasicGraphPattern(GraphPattern):
     _binds: Binding = Field(...)
     _values: Values = Field(...)
     _graph: Term = Field(...)
+
+    def to_string(self) -> str:
+        parts = []
+        if self._graph:
+            parts.append(f"GRAPH {self._graph.to_string()} {{")
+        for tp in self._triple_patterns:
+            parts.append(tp.to_string())
+        if self._binds:
+            parts.append(self._binds.to_string())
+        if self._values:
+            parts.append(self._values.to_string())
+        if self._graph:
+            parts.append("}")
+        return "\n".join(parts)
 
 
 class GroupGraphPattern(GraphPattern):
@@ -36,16 +48,39 @@ class OptionalGraphPattern(BasicGraphPattern):
 
 class AlternativeGraphPattern(GraphPattern):
     # Union
-    _graph_patterns: GraphPattern = Field(...)
+    _graph_patterns: List[GraphPattern] = Field(..., default_factory=list)
 
 
 class EmptyGroupPattern(GraphPattern):
-    _graph_patterns = Field(..., default_factory=list)
+    _graph_patterns: List[GraphPattern] = Field(..., default_factory=list)
 
 
 class MinusGraphPattern(GraphPattern):
-    pass
+    _keyword: str = Field("MINUS")
 
 
 # class NamedGraphPattern(GraphPattern):
 #    pass
+
+class ServiceGraphPattern(GraphPattern):
+    _keyword: str = Field("SERVICE")
+    _silent: bool = Field(False)
+    _service_iri: Term = Field(...)
+    _graph_pattern: GraphPattern = Field(...)
+
+if __name__ == "__main__":
+    from .term import URIRef, Literal, Variable
+    from .triple import Triple
+    from .filter import Filter
+
+    s = URIRef("http://example.org/subject")
+    p = URIRef("http://example.org/predicate")
+    o = Literal("Object")
+
+    triple = Triple(s, p, o)
+
+    bgp = BasicGraphPattern(
+        _triple_patterns=[triple]
+    )
+
+    print(bgp.to_string()) 
